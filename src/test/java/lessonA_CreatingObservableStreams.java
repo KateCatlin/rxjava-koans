@@ -88,7 +88,7 @@ public class lessonA_CreatingObservableStreams {
         String stoogeThree = "Curly";
         Integer stoogeAge = 38;
 
-        Observable<Object> stoogeDataObservable = Observable.just(_____, _____, _____, _____);
+        Observable<Object> stoogeDataObservable = Observable.just(stoogeOne, stoogeTwo, stoogeThree, stoogeAge);
         stoogeDataObservable.subscribe(mSubscriber);
         /**
          * As we've seen, the TestSubscriber's getOnNextEvents() method gives a list of all the events emitted by the observable stream in a blocking fashion.
@@ -96,11 +96,11 @@ public class lessonA_CreatingObservableStreams {
          * Without the TestSubscriber, the events would have been emitted asynchronously and our assertion would have failed.
          */
         List<Object> events = mSubscriber.getOnNextEvents();
-        assertThat(events).containsOnlyOnce(_____);
-        assertThat(events).containsOnlyOnce(_____);
-        assertThat(events).containsOnlyOnce(_____);
-        assertThat(events).containsOnlyOnce(_____);
-        assertThat(events).hasSize(____);
+        assertThat(events).containsOnlyOnce(stoogeOne);
+        assertThat(events).containsOnlyOnce(stoogeTwo);
+        assertThat(events).containsOnlyOnce(stoogeThree);
+        assertThat(events).containsOnlyOnce(stoogeAge);
+        assertThat(events).hasSize(4);
     }
 
     /**
