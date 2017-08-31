@@ -159,6 +159,7 @@ public class lessonA_CreatingObservableStreams {
          */
         Observable<Integer> numbers = Observable.range(1, 10).doOnNext(integer -> mSum += integer);
         //Hint: what would we need to do to get our Observable to start emitting things?
+        numbers.subscribe();
         assertThat(mSum).isEqualTo(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10);
     }
 
