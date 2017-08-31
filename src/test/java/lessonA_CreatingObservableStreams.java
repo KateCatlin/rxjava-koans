@@ -114,15 +114,14 @@ public class lessonA_CreatingObservableStreams {
         Observable<String> favoriteFoodsObservable = Observable.from(sandwichIngredients);
         TestSubscriber<Object> subscriber = new TestSubscriber<>();
         favoriteFoodsObservable.subscribe(subscriber);
-        assertThat(subscriber.getOnNextEvents()).hasSize(____);
-        assertThat(subscriber.getOnNextEvents()).contains(_____);
-        // Uncomment the following line and make it pass!
-        //assertThat(subscriber.getOnNextEvents()).containsAll(_____);
+        assertThat(subscriber.getOnNextEvents()).hasSize(9);
+        assertThat(subscriber.getOnNextEvents()).contains("bread (one)");
+        assertThat(subscriber.getOnNextEvents()).containsAll(sandwichIngredients);
 
         subscriber = new TestSubscriber<>();
         Observable.just(sandwichIngredients).subscribe(subscriber);
-        assertThat(subscriber.getOnNextEvents()).hasSize(____);
-        assertThat(subscriber.getOnNextEvents()).contains(_____);
+        assertThat(subscriber.getOnNextEvents()).hasSize(1);
+        assertThat(subscriber.getOnNextEvents()).contains(sandwichIngredients);
         /**
          * ^^  As you can see here, from() & just() do very different things!
          */
