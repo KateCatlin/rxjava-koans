@@ -34,9 +34,9 @@ public class lessonB_MapAndFlatMapAndBasicOperators {
                 .map(word -> word.replace("e", "3"))
                 .map(word -> word.replace("l", "1"))
                 .subscribe(mSubscriber);
-        assertThat(mSubscriber.getOnNextEvents()).contains(_____);
-        assertThat(mSubscriber.getOnNextEvents()).contains(_____);
-        assertThat(mSubscriber.getOnNextEvents()).contains(_____);
+        assertThat(mSubscriber.getOnNextEvents()).contains("k3w1");
+        assertThat(mSubscriber.getOnNextEvents()).contains("133t");
+        assertThat(mSubscriber.getOnNextEvents()).contains("sp3ak");
     }
 
     /**
@@ -53,7 +53,8 @@ public class lessonB_MapAndFlatMapAndBasicOperators {
         /**
          * The First Food cart's offerings:
          */
-        List<CarnivalFood> funnelCakeCart = Arrays.asList(new CarnivalFood("Cheese Pizza", 5.95),
+        List<CarnivalFood> funnelCakeCart = Arrays.asList(
+                new CarnivalFood("Cheese Pizza", 5.95),
                 new CarnivalFood("Funnel Cake", 3.95),
                 new CarnivalFood("Candied Apple", 1.50),
                 new CarnivalFood("Jumbo Corn Dog", 2.25),
@@ -62,7 +63,8 @@ public class lessonB_MapAndFlatMapAndBasicOperators {
         /**
          * The Second Food Cart's offerings:
          */
-        List<CarnivalFood> chineseFoodCart = Arrays.asList(new CarnivalFood("Duck Teriyaki Kabobs", 12.95),
+        List<CarnivalFood> chineseFoodCart = Arrays.asList(
+                new CarnivalFood("Duck Teriyaki Kabobs", 12.95),
                 new CarnivalFood("Vegetable Dumplings", 2.50),
                 new CarnivalFood("Poor Quality Shrimp Lo Mein", 4.75),
                 new CarnivalFood("Green Tea Ice Cream", 3.95),
@@ -85,7 +87,7 @@ public class lessonB_MapAndFlatMapAndBasicOperators {
         });
         map.subscribe(mSubscriber);
 
-        assertThat(mSubscriber.getOnNextEvents()).hasSize(____);
+        assertThat(mSubscriber.getOnNextEvents()).hasSize(2);
 
         /** Was the result above what you expected? A bit strange huh? You'd think that you'd get
          * a value matching the number of items of foods in each list at first glance.
@@ -113,7 +115,7 @@ public class lessonB_MapAndFlatMapAndBasicOperators {
             }
         });
         individualItemsObservable.subscribe(mSubscriber);
-        assertThat(mSubscriber.getOnNextEvents()).hasSize(____);
+        assertThat(mSubscriber.getOnNextEvents()).hasSize(11);
 
         mSubscriber = new TestSubscriber<>();
 
@@ -131,7 +133,7 @@ public class lessonB_MapAndFlatMapAndBasicOperators {
             }
         }).subscribe(mSubscriber);
 
-        assertThat(mSubscriber.getOnNextEvents()).hasSize(____);
+        assertThat(mSubscriber.getOnNextEvents()).hasSize(7);
 
         System.out.println("With my 5 bucks I can buy: " + mSubscriber.getOnNextEvents());
     }
@@ -157,7 +159,7 @@ public class lessonB_MapAndFlatMapAndBasicOperators {
         elevatorPassengersObservable.reduce(0, (accumulatedWeight, elevatorPassenger) ->
                 elevatorPassenger.mWeightInPounds + accumulatedWeight)
                 .subscribe(testSubscriber);
-        assertThat(testSubscriber.getOnNextEvents().get(0)).isEqualTo(____);
+        assertThat(testSubscriber.getOnNextEvents().get(0)).isEqualTo(850);
     }
 
     /**
@@ -170,7 +172,7 @@ public class lessonB_MapAndFlatMapAndBasicOperators {
 
         Observable<String> repeatingObservable = Observable.just(weapon).repeat(4);
         repeatingObservable.subscribe(subscriber);
-        assertThat(subscriber.getOnNextEvents()).hasSize(____);
+        assertThat(subscriber.getOnNextEvents()).hasSize(4);
 
         subscriber = new TestSubscriber<>();
         /**
@@ -178,7 +180,7 @@ public class lessonB_MapAndFlatMapAndBasicOperators {
          */
         Observable<String> challengeRepeatingObservable = repeatingObservable.repeat(4);
         challengeRepeatingObservable.subscribe(subscriber);
-        assertThat(subscriber.getOnNextEvents()).hasSize(____);
+        assertThat(subscriber.getOnNextEvents()).hasSize(16);
     }
 
 
@@ -201,9 +203,9 @@ public class lessonB_MapAndFlatMapAndBasicOperators {
                 })
                 .doOnNext(integer -> mStringC += integer)
                 .subscribe(integer -> mStringC += integer);
-        assertThat(mStringA).isEqualTo("____");
-        assertThat(mStringB).isEqualTo("____");
-        assertThat(mStringC).isEqualTo("____");
+        assertThat(mStringA).isEqualTo("123456");
+        assertThat(mStringB).isEqualTo("246");
+        assertThat(mStringC).isEqualTo("112233445566");
     }
 
     /**
@@ -215,9 +217,17 @@ public class lessonB_MapAndFlatMapAndBasicOperators {
     public void _6_convertingEvents() {
         mStringA = "";
         Observable.just("wE", "hOpe", "yOU", "aRe", "eNjOyInG", "thIS")
-                .map(s -> _____)
+                .map(s -> s.replace("E", "e"))
+                .map(s -> s.replace("O", "o"))
+                .map(s -> s.replace("U", "u"))
+                .map(s -> s.replace("R", "r"))
+                .map(s -> s.replace("N", "n"))
+                .map(s -> s.replace("I", "i"))
+                .map(s -> s.replace("S", "s"))
+                .map(s -> s.replace("G", "g"))
                 .subscribe(s -> mStringA += s + " ");
 
+        System.out.println(mStringA);
         assertThat(mStringA).isEqualTo("we hope you are enjoying this ");
     }
 

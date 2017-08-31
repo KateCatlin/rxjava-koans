@@ -206,5 +206,4 @@ public class lessonB_Solutions {
         assertThat(mStringA).isEqualTo("we hope you are enjoying this ");
     }
 
-
 }
