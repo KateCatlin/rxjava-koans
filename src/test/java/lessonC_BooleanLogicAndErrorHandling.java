@@ -83,15 +83,17 @@ public class lessonC_BooleanLogicAndErrorHandling {
         assertThat(elevator.getPassengerCount()).isGreaterThan(0);
         assertThat(elevator.getTotalWeightInPounds()).isLessThan(Elevator.MAX_CAPACITY_POUNDS);
         assertThat(elevator.getPassengerCount()).isEqualTo(2);
-        System.out.println("elevator stats: " + elevator);
+
         /**
          * One of the great advantages of using RxJava is that functions become composable:
          * we can easily reuse existing pieces of the pipeline by plugging them into other pipelines.
          * takeWhile() accepts a predicate or rule for determining
          */
+
         elevator.unload();
 
         elevatorQueueTwo.takeWhile(elevatorRule).subscribe(elevator::addPassenger);
+
         assertThat(elevator.getPassengerCount()).isGreaterThan(0);
         assertThat(elevator.getTotalWeightInPounds()).isLessThan(Elevator.MAX_CAPACITY_POUNDS);
         assertThat(elevator.getPassengerCount()).isEqualTo(2);
@@ -102,11 +104,17 @@ public class lessonC_BooleanLogicAndErrorHandling {
          * into elevatorOne?
          */
 
+        elevator.unload();
+
         mSubscriber = new TestSubscriber<>();
 
-        elevatorQueueTwo.filter((ElevatorPassenger passenger) -> !elevator.getPassengers().contains(passenger)).subscribe(mSubscriber);
-        System.out.println("left behind: " + mSubscriber.getOnNextEvents());
+        elevatorQueueOne.takeWhile(elevatorRule).doOnNext(elevator::addPassenger).subscribe(mSubscriber);
+        System.out.println("elevator occupants in 2nd round: " + elevator);
 
+        mSubscriber = new TestSubscriber<>();
+
+        elevatorQueueOne.filter((ElevatorPassenger passenger) -> !elevator.getPassengers().contains(passenger)).subscribe(mSubscriber);
+        System.out.println("left behind: " + mSubscriber.getOnNextEvents());
 
          assertThat(mSubscriber.getOnNextEvents()).hasSize(3);
     }
