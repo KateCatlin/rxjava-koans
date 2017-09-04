@@ -33,6 +33,24 @@ public class LessonResources {
         }
     }
 
+    public static class TemporarySum {
+
+        public int getCurrentSum() {
+            return mCurrentSum;
+        }
+
+        public void setCurrentSum(int mCurrentSum) {
+            this.mCurrentSum = mCurrentSum;
+        }
+
+        public int mCurrentSum;
+
+        public int currentSum() {
+            return mCurrentSum;
+        }
+
+    }
+
 
     public static class ComcastNetworkAdapter {
         private int mAttempts;

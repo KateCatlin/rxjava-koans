@@ -137,19 +137,24 @@ public class lessonC_BooleanLogicAndErrorHandling {
         // bonus - there's a MathObservable object that knows how to do math type things to numbers!
         //
         // here, we're getting the smallest of 3 numbers!
+
         Integer smallestNetworkLatency = MathObservable.from(Observable.just(randomInt, randomInt2, randomInt3)).min(Integer::compareTo).toBlocking().last();
 
         Observable<String> networkA = Observable.just("request took : " + randomInt + " millis").delay(randomInt, TimeUnit.MILLISECONDS);
         Observable<String> networkB = Observable.just("request took : " + randomInt2 + " millis").delay(randomInt2, TimeUnit.MILLISECONDS);
         Observable<String> networkC = Observable.just("request took : " + randomInt3 + " millis").delay(randomInt3, TimeUnit.MILLISECONDS);
+
         /**
          * Do we have several servers that give the same data and we want the fastest of the two?
          */
-        Observable.amb(________, ________, ________).subscribe(mSubscriber);
+
+        Observable.amb(networkA, networkB, networkC).subscribe(mSubscriber);
         mSubscriber.awaitTerminalEvent();
+
         List<Object> onNextEvents = mSubscriber.getOnNextEvents();
-//        assertThat(onNextEvents).contains("request took : " + ____ + " millis");
-//        assertThat(onNextEvents).hasSize(1);
+
+        assertThat(onNextEvents).contains("request took : " + smallestNetworkLatency + " millis");
+        assertThat(onNextEvents).hasSize(1);
 
         // bonus! we can call .cache() on an operation that takes a while. It will save the pipeline's events
         // up to the point that .cache() was called, saving them for use again.
@@ -167,7 +172,8 @@ public class lessonC_BooleanLogicAndErrorHandling {
         Observable.just(2, 4, 6, 8, 9)
                 .all(integer -> integer % 2 == 0)
                 .subscribe(aBoolean -> mBooleanValue = aBoolean);
-//        assertThat(mBooleanValue).isEqualTo(____);
+
+        assertThat(mBooleanValue).isEqualTo(false);
     }
 
     /**
@@ -175,14 +181,21 @@ public class lessonC_BooleanLogicAndErrorHandling {
      * Given the range below and what we've learned of rxjava so far, how can we produce an mSum equal to 19??
      * Hint: There are a couple ways you could do this, but the most readable will involve 2 operations.
      */
-//    @Test
-//    public void _4_challenge_compositionMeansTheSumIsGreaterThanTheParts() {
-//        mSum = 0;
-//        Observable<Integer> range = Observable.range(1, 10);
-//        //hmmmmmmmm.. how can we emit 1 value of 19 from the original range of numbers?
-////        assertThat(mSum).isEqualTo(19);
-//        //HINT: Could you use the MathObservable, with one of the operators you have learned about already to accomplish a result of 19?
-//    }
+    @Test
+    public void _4_challenge_compositionMeansTheSumIsGreaterThanTheParts() {
+        LessonResources.TemporarySum temporarySum = new LessonResources.TemporarySum();
+        mSum = 0;
+        mSubscriber = new TestSubscriber<>();
+
+        final String[] mStringA = {""};
+
+
+        Observable<Integer> filter = Observable.range(1, 10).filter(integer -> integer >= 9);
+        filter.doOnNext(integer -> System.out.println("Remaining integers icnlude: " + integer)).subscribe();
+        Integer sum = MathObservable.sumInteger(filter).toBlocking().last();
+        assertThat(sum).isEqualTo(19);
+    }
+
 
     /**
      * So far we've dealt with a perfect world. Unfortunately the real world involves exceptions!
