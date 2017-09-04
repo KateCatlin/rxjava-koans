@@ -30,7 +30,7 @@ public class lessonC_BooleanLogicAndErrorHandling {
     private Boolean _________;
     private TestSubscriber<Object> mSubscriber;
 
-    Func1<ElevatorPassenger, Boolean> _______ = elevatorPassenger -> false;
+    Func1<ElevatorPassenger, Boolean> isInElevator = elevatorPassenger -> false;
     Observable<Boolean> __________;
     private Object mThrowable;
 
@@ -101,11 +101,14 @@ public class lessonC_BooleanLogicAndErrorHandling {
          * Using what we've learned of rxJava so far, how could we get a list of passengers from elevatorQueueOne that didn't make it
          * into elevatorOne?
          */
-//        mSubscriber = new TestSubscriber<>();
-//
-//         ???
-//
-//         assertThat(mSubscriber.getOnNextEvents()).hasSize(3);
+
+        mSubscriber = new TestSubscriber<>();
+
+        elevatorQueueTwo.filter((ElevatorPassenger passenger) -> !elevator.getPassengers().contains(passenger)).subscribe(mSubscriber);
+        System.out.println("left behind: " + mSubscriber.getOnNextEvents());
+
+
+         assertThat(mSubscriber.getOnNextEvents()).hasSize(3);
     }
 
     /**
