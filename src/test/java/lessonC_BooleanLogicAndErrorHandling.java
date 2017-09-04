@@ -244,25 +244,40 @@ public class lessonC_BooleanLogicAndErrorHandling {
     /**
      * In this experiment, we will use RxJava to pick a lock. Our lock has three tumblers. We will need them all to be up to unlock the lock!
      */
-//
-//    @Test
-//    public void _7_combineLatestTakesTheLastEventsOfASetOfObservablesAndCombinesThem() {
-//
-//        Observable<Boolean> tumbler1Observable = Observable.just(20).map(integer -> new Random().nextInt(20) > 15).delay(new Random().nextInt(20), TimeUnit.MILLISECONDS).repeat(1000);
-//        Observable<Boolean> tumbler2Observable = Observable.just(20).map(integer -> new Random().nextInt(20) > 15).delay(new Random().nextInt(20), TimeUnit.MILLISECONDS).repeat(1000);
-//        Observable<Boolean> tumbler3Observable = Observable.just(20).map(integer -> new Random().nextInt(20) > 15).delay(new Random().nextInt(20), TimeUnit.MILLISECONDS).repeat(1000);
-//
-//        Func3<Boolean, Boolean, Boolean, Boolean> combineTumblerStatesFunction = (tumblerOneUp, tumblerTwoUp, tumblerThreeUp) -> {
-//            Boolean allTumblersUnlocked = _________ && _________ && _________;
-//            return allTumblersUnlocked;
-//        };
-//
-//        Observable<Boolean> lockIsPickedObservable = Observable.combineLatest(__________, __________, __________, combineTumblerStatesFunction).takeUntil(unlocked -> unlocked == true).last();
-//        lockIsPickedObservable.subscribe(mSubscriber);
-//        mSubscriber.awaitTerminalEvent();
-//        List<Object> onNextEvents = mSubscriber.getOnNextEvents();
-////        assertThat(onNextEvents.size()).isEqualTo(1);
-////        assertThat(onNextEvents.get(0)).isEqualTo(true);
-//    }
-//
+
+    @Test
+    public void _7_combineLatestTakesTheLastEventsOfASetOfObservablesAndCombinesThem() {
+
+        TestSubscriber<Object> nSubscriber = new TestSubscriber<>();
+        TestSubscriber<Object> oSubscriber = new TestSubscriber<>();
+        TestSubscriber<Object> pSubscriber = new TestSubscriber<>();
+
+
+        Observable<Boolean> tumbler1Observable = Observable.just(20).map(integer -> new Random().nextInt(20) > 15).delay(new Random().nextInt(20), TimeUnit.MILLISECONDS).repeat(1000);
+        tumbler1Observable.subscribe(nSubscriber);
+        tumbler1Observable.doOnNext(bool -> System.out.println("10 is " + bool)).subscribe();
+
+        Observable<Boolean> tumbler2Observable = Observable.just(20).map(integer -> new Random().nextInt(20) > 15).delay(new Random().nextInt(20), TimeUnit.MILLISECONDS).repeat(1000);
+        tumbler2Observable.subscribe(oSubscriber);
+        tumbler2Observable.doOnNext(bool -> System.out.println("20 is " + bool)).subscribe();
+
+        Observable<Boolean> tumbler3Observable = Observable.just(20).map(integer -> new Random().nextInt(20) > 15).delay(new Random().nextInt(20), TimeUnit.MILLISECONDS).repeat(1000);
+        tumbler3Observable.subscribe(pSubscriber);
+        tumbler3Observable.doOnNext(bool -> System.out.println("30 is " + bool)).subscribe();
+
+
+        Func3<Boolean, Boolean, Boolean, Boolean> combineTumblerStatesFunction = (tumblerOneUp, tumblerTwoUp, tumblerThreeUp) -> {
+            Boolean allTumblersUnlocked = tumblerOneUp && tumblerTwoUp && tumblerThreeUp;
+            System.out.println("all tumblers are unlocked");
+            return allTumblersUnlocked;
+        };
+
+        Observable<Boolean> lockIsPickedObservable = Observable.combineLatest(tumbler1Observable, tumbler2Observable, tumbler3Observable, combineTumblerStatesFunction).takeUntil(unlocked -> unlocked == true).last();
+        lockIsPickedObservable.subscribe(mSubscriber);
+        mSubscriber.awaitTerminalEvent();
+        List<Object> onNextEvents = mSubscriber.getOnNextEvents();
+        assertThat(onNextEvents.size()).isEqualTo(1);
+        assertThat(onNextEvents.get(0)).isEqualTo(true);
+    }
+
 }
