@@ -181,6 +181,7 @@ public class lessonC_BooleanLogicAndErrorHandling {
      * Given the range below and what we've learned of rxjava so far, how can we produce an mSum equal to 19??
      * Hint: There are a couple ways you could do this, but the most readable will involve 2 operations.
      */
+
     @Test
     public void _4_challenge_compositionMeansTheSumIsGreaterThanTheParts() {
         LessonResources.TemporarySum temporarySum = new LessonResources.TemporarySum();
@@ -204,37 +205,41 @@ public class lessonC_BooleanLogicAndErrorHandling {
      * Our first means to do this is with the .onError() event we can implement in our pipeline. This will receive whatever
      * exception was emitted, so that we can log about it, take action, or notify the user for example.
      */
-//    @Test
-//    public void _5_onErrorIsCalledWhenErrorsOccur() {
-//        List<String> arrayOne = new ArrayList<>();
-//        List<String> arrayTwo = new ArrayList<>();
-//        List<String> arrayThree =  null;
-//        Observable.just(arrayOne, arrayTwo, arrayThree).map(new Func1<List<String>, List<String>>() {
-//            @Override
-//            public List<String> call(List<String> strings) {
-//                strings.add("GOOD JOB!");
-//                return strings;
-//            }
-//        }).doOnError(oops -> ______ = oops).subscribe(mSubscriber);
-//        assertThat(mThrowable).isInstanceOf(Throwable.class);
-//    }
+
+    @Test
+    public void _5_onErrorIsCalledWhenErrorsOccur() {
+        List<String> arrayOne = new ArrayList<>();
+        List<String> arrayTwo = new ArrayList<>();
+        List<String> arrayThree =  null;
+        Observable.just(arrayOne, arrayTwo, arrayThree).map(new Func1<List<String>, List<String>>() {
+            @Override
+            public List<String> call(List<String> strings) {
+                strings.add("GOOD JOB!");
+                System.out.println(strings);
+                return strings;
+            }
+        }).doOnError(throwable -> mThrowable = throwable).subscribe(mSubscriber);
+        assertThat(mThrowable).isInstanceOf(Throwable.class);
+    }
 
     /**
      * In this test, our flaky comcast modem is on the blink again unfortunately.
      * .retry(long numberOfAttempts) can keep resubscribing to an Observable until a different non-error result occurs.
      * http://reactivex.io/documentation/operators/retry.html
      */
-//    @Test
-//    public void _6_retryCanAttemptAnOperationWhichFailsMultipleTimesInTheHopesThatItMaySucceeed() {
-//        Observable<String> networkRequestObservable = Observable.just(new ComcastNetworkAdapter()).map(new Func1<ComcastNetworkAdapter, String>() {
-//            @Override
-//            public String call(ComcastNetworkAdapter networkAdapter) {
-//                return networkAdapter.getData().get(0);
-//            }
-//        }).repeat(100);
-//        networkRequestObservable.retry(____).subscribe(mSubscriber);
-//        assertThat(mSubscriber.getOnNextEvents().get(0)).isEqualTo("extremely important data");
-//    }
+
+
+    @Test
+    public void _6_retryCanAttemptAnOperationWhichFailsMultipleTimesInTheHopesThatItMaySucceeed() {
+        Observable<String> networkRequestObservable = Observable.just(new ComcastNetworkAdapter()).map(new Func1<ComcastNetworkAdapter, String>() {
+            @Override
+            public String call(ComcastNetworkAdapter networkAdapter) {
+                return networkAdapter.getData().get(0);
+            }
+        }).repeat(2);
+        networkRequestObservable.retry(43).subscribe(mSubscriber);
+        assertThat(mSubscriber.getOnNextEvents().get(0)).isEqualTo("extremely important data");
+    }
 
     /**
      * In this experiment, we will use RxJava to pick a lock. Our lock has three tumblers. We will need them all to be up to unlock the lock!

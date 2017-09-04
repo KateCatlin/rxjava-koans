@@ -61,6 +61,7 @@ public class LessonResources {
                 System.out.println("network issues!! please reboot your computer!");
                 return null;
             }
+
             ArrayList<String> data = new ArrayList<>();
             data.add("extremely important data");
             System.out.println("transmitting data!");
