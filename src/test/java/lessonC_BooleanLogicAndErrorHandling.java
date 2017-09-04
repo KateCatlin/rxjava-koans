@@ -184,7 +184,6 @@ public class lessonC_BooleanLogicAndErrorHandling {
 
     @Test
     public void _4_challenge_compositionMeansTheSumIsGreaterThanTheParts() {
-        LessonResources.TemporarySum temporarySum = new LessonResources.TemporarySum();
         mSum = 0;
         mSubscriber = new TestSubscriber<>();
 
